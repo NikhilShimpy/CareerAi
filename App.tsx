@@ -229,7 +229,7 @@ const App: React.FC = () => {
             </div>
             
             <div className="mt-20 opacity-50 text-xs text-slate-500">
-              Powered by Google Gemini 2.5 Flash • Built for Job Seekers
+              By Nikhil Shimpy with ❤️
             </div>
           </div>
         );
