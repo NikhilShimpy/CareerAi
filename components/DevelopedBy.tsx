@@ -45,6 +45,14 @@ const DevelopedBy: React.FC = () => {
     { name: 'GenAI', color: 'bg-purple-500 text-purple-400 border-purple-500' },
     { name: 'Flask', color: 'bg-white text-slate-300 border-white' },
     { name: 'Firebase', color: 'bg-amber-500 text-amber-400 border-amber-500' },
+    { name: 'Flutter', color: 'bg-blue-500 text-blue-300 border-blue-500' },
+    { name: 'Dart', color: 'bg-sky-500 text-sky-300 border-sky-500' },
+    { name: 'Java', color: 'bg-red-500 text-red-300 border-red-500' },
+    { name: 'Cloud', color: 'bg-indigo-500 text-indigo-300 border-indigo-500' },
+    { name: 'SQL', color: 'bg-green-500 text-green-300 border-green-500' },
+    { name: 'MongoDB', color: 'bg-emerald-500 text-emerald-300 border-emerald-500' },
+    { name: 'Node.js', color: 'bg-lime-500 text-lime-300 border-lime-500' },
+    { name: 'Next.js', color: 'bg-red-500 text-red-300 border-red-300' }
   ];
 
   return (
