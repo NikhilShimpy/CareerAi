@@ -58,7 +58,7 @@ const DevelopedBy: React.FC = () => {
         <div className="relative z-10 flex flex-col items-center">
           <div className="w-32 h-32 lg:w-40 lg:h-40 rounded-full p-1 bg-gradient-to-tr from-blue-500 to-purple-500 mb-6 shadow-xl shadow-blue-500/20">
             <img 
-              src="https://github.com/nikhilshimpy.png" 
+              src="https://res.cloudinary.com/dtarhtz5w/image/upload/v1764451951/Media%20Library/Assets/axc2u7b8swdcaadlyd8g.jpg" 
               alt="Nikhil Shimpy" 
               className="w-full h-full rounded-full object-cover bg-slate-950 border-4 border-slate-900"
             />
