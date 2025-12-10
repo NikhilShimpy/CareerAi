@@ -82,7 +82,7 @@ const DevelopedBy: React.FC = () => {
               href="https://www.linkedin.com/in/nikhilshimpy/" 
               icon="💼" 
               label="LinkedIn" 
-              color="blue"
+              color="pink"
             />
             <SocialLink 
               href="https://github.com/nikhilshimpy" 
@@ -95,6 +95,12 @@ const DevelopedBy: React.FC = () => {
               icon="📸" 
               label="Instagram" 
               color="pink"
+            />
+            <SocialLink 
+              href="https://x.com/NShimpy30982" 
+              icon="✨" 
+              label="Twitter" 
+              color="purple"
             />
           </div>
 
