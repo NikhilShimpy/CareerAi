@@ -39,7 +39,6 @@ const Profile: React.FC<ProfileProps> = ({ user, onLogout }) => {
   const [loading, setLoading] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
 
-    // 
   // Show toast helper
   const showToast = (msg: string) => {
     setToast(msg);
