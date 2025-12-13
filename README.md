@@ -116,9 +116,9 @@ npm run dev
 http://localhost:5173
 ```
 
-
 🎉 CareerAI is now running locally!
 
+---
 
 ## 📽️ Live Demo / Video
 
