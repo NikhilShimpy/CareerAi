@@ -4,16 +4,16 @@ import { db } from '../services/firebase';
 
 // Using consistent high-quality 3D avatar assets for premium feel
 const AVATARS = [
-  "https://api.dicebear.com/9.x/notionists/svg?seed=Felix",
-  "https://api.dicebear.com/9.x/notionists/svg?seed=Aneka",
-  "https://api.dicebear.com/9.x/notionists/svg?seed=Zoe",
-  "https://api.dicebear.com/9.x/notionists/svg?seed=Leo",
-  "https://api.dicebear.com/9.x/notionists/svg?seed=Max",
-  "https://api.dicebear.com/9.x/notionists/svg?seed=Liam",
-  "https://api.dicebear.com/9.x/notionists/svg?seed=Mila",
-  "https://api.dicebear.com/9.x/notionists/svg?seed=Noa",
-  "https://api.dicebear.com/9.x/notionists/svg?seed=Kai",
-  "https://api.dicebear.com/9.x/notionists/svg?seed=Sara"
+  "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317833/image4_nfbdvk.png",
+  "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317832/image10_prpun0.jpg",
+  "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317832/image2_levtat.png",
+  "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317832/image3_ergsfw.png",
+  "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317832/image6_yfyyap.png",
+  "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317832/image9_rvnbwo.png",
+  "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317832/image5_sbju6u.png",
+  "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317832/image7_kvh8hu.jpg",
+  "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317832/image8_qfdmet.png",
+  "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317832/image10_prpun0.jpg" 
 ];
 
 interface AvatarSelectionProps {

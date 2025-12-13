@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { auth, db } from './services/firebase';
 import { AppView, Pattern, UserProfile } from './types';
 import { DSA_PATTERNS } from './constants';
@@ -31,9 +31,11 @@ const App: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [selectedPattern, setSelectedPattern] = useState<Pattern | null>(null);
 
-  // Check Auth Status on Load
+  // Check Auth Status on Load with Real-time Firestore Listener
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+    let unsubscribeFirestore: (() => void) | null = null;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
       setLoading(true);
       if (firebaseUser) {
         if (!firebaseUser.emailVerified && firebaseUser.providerData[0].providerId === 'password') {
@@ -44,37 +46,50 @@ const App: React.FC = () => {
            return;
         }
 
-        const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data() as any;
-          const userProfile: UserProfile = {
-            uid: firebaseUser.uid,
-            name: userData.name,
-            email: userData.email,
-            profileImage: userData.profileImage,
-            authProvider: userData.authProvider,
-            createdAt: userData.createdAt?.toDate().toISOString(),
-            lastLogin: userData.lastLogin?.toDate().toISOString()
-          };
-          setUser(userProfile);
-          
-          if (!userProfile.profileImage) {
-            setAuthView('avatar');
+        // Set up real-time listener for the user's document using Modular Syntax
+        unsubscribeFirestore = onSnapshot(doc(db, "users", firebaseUser.uid), (docSnap) => {
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            setUser({
+              uid: firebaseUser.uid,
+              name: userData.name,
+              email: userData.email,
+              profileImage: userData.profileImage,
+              authProvider: userData.authProvider,
+              createdAt: userData.createdAt?.toDate().toISOString(),
+              lastLogin: userData.lastLogin?.toDate().toISOString()
+            });
+            
+            if (!userData.profileImage) {
+              setAuthView('avatar');
+            } else {
+              setAuthView('app');
+            }
           } else {
-            setAuthView('app');
+            // Document might not exist yet if just created, handled in Login logic
+            if (!loading) setAuthView('login');
           }
-        } else {
-          // Fallback if doc missing
-          setAuthView('login');
-        }
+          setLoading(false);
+        }, (error) => {
+           console.error("Firestore Listener Error:", error);
+           setLoading(false);
+        });
+
       } else {
+        if (unsubscribeFirestore) {
+          unsubscribeFirestore();
+          unsubscribeFirestore = null;
+        }
         setUser(null);
         setAuthView('login');
+        setLoading(false);
       }
-      setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeFirestore) unsubscribeFirestore();
+    };
   }, []);
 
   const handleLoginSuccess = (isNewUser: boolean) => {
@@ -93,7 +108,7 @@ const App: React.FC = () => {
   };
 
   const handleAvatarComplete = () => {
-    window.location.reload(); // Simple reload to refresh context/state completely
+    // Real-time listener will catch the update and switch view
   };
 
   const handleRandomProblem = () => {
@@ -113,7 +128,7 @@ const App: React.FC = () => {
       case 'aptitude':
         return <AptitudeLibrary />;
       case 'mock-test':
-        return <AptitudeTest />;
+        return <AptitudeTest user={user} />;
       case 'guide':
         return <Guide onPickRandom={handleRandomProblem} />;
       case 'tools':
@@ -229,7 +244,7 @@ const App: React.FC = () => {
             </div>
             
             <div className="mt-20 opacity-50 text-xs text-slate-500">
-              By Nikhil Shimpy with ❤️
+              Powered by Google Gemini 2.5 Flash • Built for Job Seekers
             </div>
           </div>
         );

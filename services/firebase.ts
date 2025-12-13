@@ -1,4 +1,4 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
@@ -12,7 +12,11 @@ const firebaseConfig = {
   appId: "1:116563006170:web:d292972ccc3714f1564be3"
 };
 
-const app = initializeApp(firebaseConfig);
+// Singleton pattern for the App instance
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+export default app;
