@@ -72,7 +72,7 @@ src/
 ├── index.html
 └── metadata.json
 
-
+```
 
 
 ## 🚀 Installation & Run Locally
@@ -88,12 +88,13 @@ src/
 ```bash
 git clone https://github.com/yourusername/CareerAI.git
 cd CareerAI
-
+```
 
 ### 2️⃣ Install Dependencies
 
 ```bash
 npm install
+```
 
 ### 3️⃣ Environment Setup
 
@@ -101,16 +102,19 @@ Create a .env.local file in the root directory and add your Gemini API key:
 
 ```bash 
 GEMINI_API_KEY=your_gemini_api_key_here
+```
 
 ### 4️⃣ Run the Development Server
 
 ```bash
 npm run dev
+```
 
 ### Open in Browser
 
 ```bash
 http://localhost:5173
+```
 
 
 🎉 CareerAI is now running locally!
