@@ -3,7 +3,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { db } from '../services/firebase';
 
   
-// Using consistent 
+// Using 
 const AVATARS = [
   "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317833/image4_nfbdvk.png",
   "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317832/image10_prpun0.jpg",
