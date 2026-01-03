@@ -4,7 +4,7 @@ import { db } from '../services/firebase';
 
   
 
-// Using consistent high-quality 3D avatar assets for premium 
+// Using consistent high-quality 3D avatar assets 
 const AVATARS = [
   "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317833/image4_nfbdvk.png",
   "https://res.cloudinary.com/dtarhtz5w/image/upload/v1765317832/image10_prpun0.jpg",
