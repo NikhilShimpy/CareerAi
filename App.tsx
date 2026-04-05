@@ -282,9 +282,9 @@ const App: React.FC = () => {
         onLogout={handleLogout}
       />
       
-      <main className="flex-1 lg:ml-0 relative overflow-x-hidden flex flex-col">
+      <main className="flex-1 ml-20 relative overflow-x-hidden flex flex-col lg:ml-20">
         {/* Mobile Header */}
-        <div className="lg:hidden flex items-center justify-between p-4 border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-30">
+        <div className="lg:hidden flex items-center justify-between p-4 border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-30 -ml-20">
           <div className="font-bold text-white flex items-center space-x-2">
             <span className="text-xl">🚀</span>
             <span>Career AI</span>

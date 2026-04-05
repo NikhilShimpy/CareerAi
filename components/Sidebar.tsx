@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AppView, UserProfile } from '../types';
 
 interface SidebarProps {
@@ -25,36 +25,38 @@ const NavItem = ({
   collapsed: boolean;
   onClick: () => void; 
 }) => (
-  <button
-    onClick={onClick}
-    title={collapsed ? label : undefined}
-    className={`flex items-center ${collapsed ? 'justify-center px-2' : 'space-x-3 px-4'} py-3 rounded-xl transition-all duration-200 w-full mb-1 ${
-      active 
-        ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.3)]' 
-        : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
-    }`}
-  >
-    <span className="text-xl shrink-0">{icon}</span>
-    {!collapsed && (
-      <span className="font-medium tracking-wide truncate transition-opacity duration-300">{label}</span>
-    )}
-  </button>
+  <div className={`flex ${collapsed ? 'justify-center' : 'justify-start'} w-full mb-1`}>
+    <button
+      onClick={onClick}
+      title={collapsed ? label : undefined}
+      className={`flex items-center ${collapsed ? 'justify-center w-11 h-11 p-0' : 'space-x-3 px-4 py-3 w-full'} rounded-xl transition-all duration-200 ${
+        active 
+          ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.3)]' 
+          : 'text-slate-400 hover:bg-slate-800/50 hover:text-slate-200'
+      }`}
+    >
+      <span className="text-xl shrink-0">{icon}</span>
+      {!collapsed && (
+        <span className="font-medium tracking-wide truncate transition-opacity duration-300">{label}</span>
+      )}
+    </button>
+  </div>
 );
 
 const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, isMobileMenuOpen, toggleMobileMenu, user, onLogout }) => {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  // Collapsed by default on desktop; expands on hover
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isHovering, setIsHovering] = useState(false);
 
-  useEffect(() => {
-    const savedState = localStorage.getItem('sidebarState');
-    if (savedState === 'closed') {
-      setIsCollapsed(true);
-    }
-  }, []);
+  // On desktop, expand when hovering, collapse when not
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    setIsCollapsed(false);
+  };
 
-  const toggleCollapse = () => {
-    const newState = !isCollapsed;
-    setIsCollapsed(newState);
-    localStorage.setItem('sidebarState', newState ? 'closed' : 'open');
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    setIsCollapsed(true);
   };
 
   return (
@@ -69,21 +71,13 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, isMobileMe
 
       {/* Sidebar Container */}
       <aside 
-        className={`fixed lg:static inset-y-0 left-0 z-50 bg-slate-900 border-r border-slate-800 transform transition-all duration-300 ease-in-out lg:transform-none flex flex-col ${
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className={`fixed inset-y-0 left-0 z-50 bg-slate-900 border-r border-slate-800 transform transition-all duration-300 ease-in-out flex flex-col ${
           isMobileMenuOpen ? 'translate-x-0 w-72' : '-translate-x-full lg:translate-x-0'
         } ${isCollapsed ? 'lg:w-20' : 'lg:w-72'}`}
       >
-        <div className="h-full flex flex-col p-4 lg:p-6 relative">
-          
-          {/* Collapse Toggle (Desktop) */}
-          <button 
-            onClick={toggleCollapse}
-            className="hidden lg:flex absolute -right-3 top-8 w-6 h-6 bg-slate-800 border border-slate-600 rounded-full items-center justify-center text-slate-400 hover:text-white hover:bg-slate-700 transition-colors z-50 shadow-lg"
-          >
-            <svg className={`w-3 h-3 transition-transform duration-300 ${isCollapsed ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
+        <div className="h-full max-h-screen flex flex-col p-4 lg:p-6 relative overflow-hidden">
 
           {/* Logo */}
           <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'space-x-3'} mb-8 px-2 transition-all duration-300`}>
@@ -102,8 +96,8 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, isMobileMe
             )}
           </div>
 
-          {/* Navigation */}
-          <nav className="flex-1 space-y-1 overflow-y-auto scrollbar-thin overflow-x-hidden">
+          {/* Navigation - Scrollable */}
+          <nav className="flex-1 space-y-1 overflow-y-auto overflow-x-hidden pr-1 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent hover:scrollbar-thumb-slate-600" style={{ scrollbarWidth: 'thin', scrollbarColor: '#334155 transparent' }}>
             <NavItem 
               view="home" 
               label="Home" 
@@ -201,10 +195,10 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, onChangeView, isMobileMe
             <div className="pt-4 border-t border-slate-800 mt-2">
               <div 
                 onClick={() => { onChangeView('profile'); toggleMobileMenu(); }}
-                className={`flex items-center ${isCollapsed ? 'justify-center' : 'space-x-3 px-2'} py-2 rounded-lg bg-slate-800/30 border border-slate-700/50 cursor-pointer group hover:bg-slate-700/50 hover:border-blue-500/30 transition-all`}
+                className={`flex items-center ${isCollapsed ? 'justify-center' : 'space-x-3 px-2'} py-2 rounded-lg cursor-pointer group transition-all`}
                 title="View Profile"
               >
-                <div className="w-8 h-8 rounded-full overflow-hidden shrink-0 border border-slate-600 group-hover:border-blue-400 transition-colors">
+                <div className="w-10 h-10 rounded-full overflow-hidden shrink-0 border-2 border-slate-600 shadow-lg shadow-slate-900/50 group-hover:border-blue-400 group-hover:shadow-blue-500/30 transition-all">
                   <img src={user.profileImage || "https://api.dicebear.com/9.x/notionists/svg?seed=Felix"} alt="User" className="w-full h-full object-cover" />
                 </div>
                 {!isCollapsed && (
